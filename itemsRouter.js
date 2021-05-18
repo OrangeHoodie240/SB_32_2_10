@@ -1,7 +1,6 @@
 const express = require('express');
 const router = new express.Router();
 const items = require('./fakeDb');
-const utility = require('./utility');
 const ExpressError = require('./expressError');
 
 
@@ -21,7 +20,7 @@ router.post('/', (req, res, next) => {
     if (!item.name) {
         return next(new ExpressError('Errorr: Invalid item name', 400));
     }
-    else if (!utility.validPrice(item.price)) {
+    else if (!(item.price >= 0)) {
         return next(new ExpressError('Error: Invalid price', 400));
     }
     else if(shouldBeNegative >= 0){
@@ -57,7 +56,7 @@ router.patch('/:name', (req, res, next)=>{
     else if(!name){
         return next(new ExpressError(`Error: No Item Named ${name}`, 400)); 
     }
-    else if(!utility.validPrice(price)){
+    else if(!(price >= 0)){
         return next(new ExpressError(`Error: Invalid Price`, 400)); 
     }
 
